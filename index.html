@@ -150,16 +150,18 @@
     display:flex;align-items:center;gap:16px;line-height:1.4;
     transition:border-color .2s,background .2s,transform .15s,box-shadow .2s;
   }
-  .opt:hover{border-color:var(--coral);background:#fff;transform:translateX(4px);box-shadow:var(--shadow)}
+  @media (hover:hover){
+    .opt:hover{border-color:var(--coral);background:#fff;transform:translateX(4px);box-shadow:var(--shadow)}
+    .opt:hover .mark{border-color:var(--berry);background:var(--coral-soft)}
+    .opt:hover .mark svg{opacity:1;transform:scale(1)}
+  }
   .opt:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
   .opt .mark{
     flex-shrink:0;width:26px;height:26px;border-radius:50%;
     border:1.5px solid var(--rose);display:grid;place-items:center;
     transition:background .2s,border-color .2s;
   }
-  .opt:hover .mark{border-color:var(--berry);background:var(--coral-soft)}
   .opt .mark svg{width:13px;height:13px;opacity:0;transform:scale(.5);transition:.2s}
-  .opt:hover .mark svg{opacity:1;transform:scale(1)}
 
   /* ---------- transitions ---------- */
   .screen{display:none;animation:fadeUp .55s cubic-bezier(.2,.8,.2,1)}
@@ -422,8 +424,8 @@
 
     <div class="cta-circle">
       <div class="k">
-        <span class="pill">Inner Circle Carrie · Telegram</span>
-        <h3 id="circleHead">Komm in den Inner Circle Carrie.</h3>
+        <span class="pill">Inner Circle von Carrie · Telegram</span>
+        <h3 id="circleHead">Komm in den Inner Circle von Carrie.</h3>
         <p>Diese Auswertung ist der Anfang. Im Inner Circle bekommst du täglich kurze Impulse und Insights – genau zu dem, was dein Business gerade braucht.</p>
         <ul>
           <li><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9l3.5 3.5L14 5" stroke="#E8967A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Täglicher Impuls – in unter 2 Minuten gelesen</span></li>
@@ -437,7 +439,7 @@
     <div class="cta-call">
       <div class="small">Wenn du tiefer gehen willst</div>
       <h3 id="callHead">Lass uns dein Fundament gemeinsam legen.</h3>
-      <p id="callText">In einem Gespräch schauen wir gemeinsam auf dein Business – nicht auf die nächste Taktik, sondern auf das, was wirklich trägt. Und ich zeige dir, wie du in der Online Business Makery dein erstes Gruppenprogramm baust: mit der Fall-in-Love-Methode, aus genau dieser Beziehung heraus.</p>
+      <p id="callText">In einem Gespräch schauen wir gemeinsam auf dein Business – nicht auf die nächste Taktik, sondern auf das, was wirklich trägt. Und ich zeige dir, wie dein erstes Gruppenprogramm mit der Fall-in-Love-Methode entstehen kann.</p>
       <a class="btn" id="callBtn" href="#" target="_blank" rel="noopener">Gespräch buchen</a>
     </div>
   </section>
@@ -468,19 +470,35 @@ const CONFIG = {
    ============================================================ */
 const QUESTIONS = [
   {
+    q: "Dein Umsatz pro Jahr – wo stehst du gerade?",
+    a: [
+      {t:"Unter 50K pro Jahr.", s:{D:0,A:0,M:0,F:0}},
+      {t:"Mehr als 50K pro Jahr.", s:{D:1,A:1,M:1,F:1}},
+      {t:"Mehr als 100K pro Jahr.", s:{D:2,A:2,M:2,F:2}},
+    ]
+  },
+  {
+    q: "Dein Hauptprodukt, mit dem du den meisten Umsatz machst:",
+    a: [
+      {t:"Ein 1:1 Angebot.", s:{D:1,A:1,M:1,F:0}},
+      {t:"Ein Gruppen-Programm.", s:{D:2,A:3,M:2,F:3}},
+      {t:"Passives Einkommen.", s:{D:1,A:2,M:1,F:2}},
+    ]
+  },
+  {
+    q: "Wie viele Stunden arbeitest du gerade für deinen Umsatz?",
+    a: [
+      {t:"25h oder weniger.", s:{D:2,A:3,M:2,F:3}},
+      {t:"40h.", s:{D:1,A:1,M:1,F:1}},
+      {t:"Mehr als 40h.", s:{D:0,A:0,M:0,F:0}},
+    ]
+  },
+  {
     q: "Wenn du an dein Business denkst – woher kommt das, was du tust?",
     a: [
       {t:"Aus echter Berufung. Ich weiß, wofür ich da bin und was nur ich so kann.", s:{D:3,A:2,M:2,F:2}},
       {t:"Ich kann vieles – aber ich zweifle oft, ob das wirklich mein Weg ist.", s:{D:0,A:1,M:1,F:0}},
       {t:"Ich orientiere mich daran, was bei anderen gerade funktioniert.", s:{D:0,A:0,M:1,F:0}},
-    ]
-  },
-  {
-    q: "Deine Fähigkeiten und Gaben – wie gehst du mit ihnen um?",
-    a: [
-      {t:"Ich erkenne sie an und setze sie bewusst ein. Sie sind mein Fundament.", s:{D:3,A:2,M:1,F:2}},
-      {t:"Ich spiele sie eher klein. Reicht das wirklich? denke ich oft.", s:{D:0,A:0,M:0,F:0}},
-      {t:"Ich weiß, ich kann was – aber ich nutze es nicht voll.", s:{D:1,A:1,M:1,F:1}},
     ]
   },
   {
@@ -494,49 +512,33 @@ const QUESTIONS = [
   {
     q: "Macht es dir Lust, dein Angebot tatsächlich auszuführen?",
     a: [
-      {t:"Ja. Ich liebe es zu tun – und das spüren meine Kundinnen.", s:{D:2,A:3,M:2,F:2}},
-      {t:"Ich tue es, aber die Begeisterung ist irgendwo verloren gegangen.", s:{D:1,A:0,M:0,F:0}},
-      {t:"Ich verzettle mich in zu vielem, um echte Lust zu spüren.", s:{D:0,A:0,M:0,F:0}},
+      {t:"Ja, ich könnte mir nichts Schöneres vorstellen. Es ist alles perfekt – Umsatz, meine freie Zeit und meine Freude dabei.", s:{D:3,A:3,M:2,F:3}},
+      {t:"Ich tue es, aber ich spüre, ich bin rausgewachsen.", s:{D:1,A:1,M:1,F:0}},
+      {t:"Ich verzettle mich in zu vielen Ideen. Ich bin zu kreativ.", s:{D:0,A:0,M:0,F:0}},
     ]
   },
   {
-    q: "Schafft dein Angebot echte Transformation – oder eher nette Inhalte?",
+    q: "Wenn du verkaufst, worum geht es für dich?",
     a: [
-      {t:"Echte Transformation. Meine Kundinnen verändern sich wirklich.", s:{D:2,A:3,M:3,F:2}},
-      {t:"Ich liefere viel Wissen – aber ob es wirklich verändert, weiß ich nicht.", s:{D:1,A:1,M:0,F:1}},
-      {t:"Ich bin mir selbst nicht sicher, was die echte Veränderung ist.", s:{D:0,A:0,M:0,F:0}},
+      {t:"Ich liebe es zu verkaufen. Es ist playful für mich.", s:{D:2,A:2,M:3,F:2}},
+      {t:"Ich will niemanden bedrängen oder überreden müssen. Ich fühle mich unwohl.", s:{D:1,A:1,M:0,F:1}},
+      {t:"Um mein Verkaufsskript runterzuratschen, das ich mal gelernt habe. Jedes Mal hab ich nen Kloß im Hals.", s:{D:0,A:0,M:0,F:0}},
     ]
   },
   {
-    q: "Worum geht es für dich, wenn du mit potenziellen Kundinnen sprichst?",
+    q: "Wenn du neue Kund:innen erreichen willst, dann:",
     a: [
-      {t:"Um Vertrauen. Verkauf ist nie das Erste – Beziehung schon.", s:{D:2,A:2,M:3,F:2}},
-      {t:"Ehrlich gesagt fühlt es sich oft wie verkaufen müssen an.", s:{D:0,A:0,M:0,F:0}},
-      {t:"Ich weiß nicht recht, wie ich Nähe schaffe, ohne zu drängen.", s:{D:1,A:1,M:0,F:1}},
+      {t:"weiß ich genau, wie ich in meiner Sichtbarkeit kommuniziere. Es kommen laufend Anfragen rein.", s:{D:2,A:2,M:3,F:2}},
+      {t:"weiß ich nie, wo ich anfangen soll. Mir fehlen die Ideen und ich bleib beim Scrollen hängen.", s:{D:0,A:0,M:0,F:0}},
+      {t:"poste ich viel, aber es bewegt sich nichts. Wenig Likes, wenig Rückmeldung. Es frustriert.", s:{D:1,A:0,M:0,F:0}},
     ]
   },
   {
-    q: "Follower oder echte Menschen – was zählt für dich?",
+    q: "Hast du eine eigene Methode, für die du bekannt bist und die dich von anderen abhebt?",
     a: [
-      {t:"Echte Menschen, die anfangen zu vertrauen und den Weg gehen wollen.", s:{D:2,A:2,M:3,F:2}},
-      {t:"Ich starre zu oft auf Zahlen und Reichweite, ehrlich.", s:{D:0,A:0,M:0,F:0}},
-      {t:"Ich hätte gern mehr von beidem – und verliere mich dabei.", s:{D:0,A:1,M:1,F:0}},
-    ]
-  },
-  {
-    q: "Sprichst du die Sprache deiner Kundinnen – zeigst du dich echt?",
-    a: [
-      {t:"Ja. Ich gebe echte Einblicke und Menschen fühlen sich gesehen.", s:{D:2,A:2,M:3,F:2}},
-      {t:"Ich halte mich zurück. Mich zeigen fällt mir schwer.", s:{D:0,A:1,M:0,F:1}},
-      {t:"Ich poste viel, aber es schafft selten echte Verbindung.", s:{D:1,A:0,M:0,F:0}},
-    ]
-  },
-  {
-    q: "Wenn du morgens aufwachst – was bestimmt deinen Business-Tag?",
-    a: [
-      {t:"Mein Fundament trägt. Ich muss nicht der nächsten Strategie hinterherlaufen.", s:{D:2,A:2,M:2,F:3}},
-      {t:"Die nächste Taktik, der nächste Funnel, der nächste Trend – immer Jagd.", s:{D:0,A:0,M:0,F:0}},
-      {t:"Ein bisschen von beidem. Sicher fühlt es sich noch nicht an.", s:{D:1,A:1,M:1,F:1}},
+      {t:"Ja, und auf diese zähle ich und meine Kund:innen!", s:{D:3,A:2,M:2,F:3}},
+      {t:"Nein, ich kann doch nicht eine eigene Methode kommunizieren.", s:{D:0,A:0,M:1,F:0}},
+      {t:"Hab ich noch nie in meinem Bereich gehört, dass das Sinn machen sollte.", s:{D:0,A:1,M:0,F:0}},
     ]
   },
 ];
@@ -557,7 +559,7 @@ const PROFILES = {
     sub:"Du kannst so viel – nur du selbst glaubst es noch nicht ganz.",
     impTitle:"Was ich in deinen Antworten lese",
     read:"Dein Können steht außer Frage. Aber du spielst dich klein, zweifelst an deinem Weg und orientierst dich daran, was bei anderen funktioniert. <strong>Die schwächste Beziehung ist gerade die zu dir selbst.</strong> Und genau hier beginnt alles: Solange du deine Berufung nicht zulässt und deine Fähigkeiten nicht anerkennst, baust du auf fremdem Grund. Kein Funnel der Welt gleicht das aus.",
-    lever:"Dein Hebel ist dein erstes Gruppenprogramm – gebaut mit der Fall-in-Love-Methode. Und die beginnt bei dir: <strong>Lass deine Berufung zu, erkenne deine Gaben an und setze sie ein.</strong> Aus dieser Beziehung zu dir entsteht ein Programm, das nur deins sein kann. Genau diesen Weg gehst du in der Online Business Makery.",
+    lever:"Dein Hebel ist dein erstes Gruppenprogramm – gebaut mit der Fall-in-Love-Methode. Und die beginnt bei dir: <strong>Lass deine Berufung zu, erkenne deine Gaben an und setze sie ein.</strong> Aus dieser Beziehung zu dir entsteht ein Programm, das nur deins sein kann.",
     circle:"Im Inner Circle bekommst du täglich Impulse, die dich in deine eigene Größe zurückholen."
   },
   A:{
@@ -565,7 +567,7 @@ const PROFILES = {
     sub:"Du gibst alles – nur passt das, was du gebaut hast, nicht in dein Leben.",
     impTitle:"Was ich in deinen Antworten lese",
     read:"Du lieferst, du arbeitest, du bist da. Aber dein Angebot bestimmt dein Leben statt umgekehrt, und die Lust am Tun ist irgendwo verloren gegangen. <strong>Die schwächste Beziehung ist die zu deinem Angebot.</strong> Ein Angebot, das dich auffrisst, dient am Ende niemandem – und die nächste Generation Unternehmerin baut nicht 7-stellig auf Kosten ihres Lebens.",
-    lever:"Dein Hebel ist ein Gruppenprogramm, das in dein Leben passt – gebaut mit der Fall-in-Love-Methode. <strong>Ein Angebot, das dir Lust macht UND echten Kund:innen dient.</strong> Statt dich aufzufressen, trägt es dich. Genau das baust du dir in der Online Business Makery auf.",
+    lever:"Dein Hebel ist ein Gruppenprogramm, das in dein Leben passt – gebaut mit der Fall-in-Love-Methode. <strong>Ein Angebot, das dir Lust macht UND echten Kund:innen dient.</strong> Statt dich aufzufressen, trägt es dich.",
     circle:"Im Inner Circle zeige ich dir täglich, wie ein Angebot entsteht, das trägt statt auffrisst."
   },
   M:{
@@ -573,7 +575,7 @@ const PROFILES = {
     sub:"Du bist gut. Nur fühlt sich der Weg zu deinen Kund:innen noch nach Verkaufen an.",
     impTitle:"Was ich in deinen Antworten lese",
     read:"Du hast etwas zu geben – vielleicht sogar schon ein Angebot oder ein Gruppenprogramm. Aber der Kontakt zu deinen Kund:innen fühlt sich oft an wie verkaufen müssen. Du starrst auf Zahlen, hältst dich zurück, zeigst dich selten echt. <strong>Du verstehst die Sprache der Liebe zu deinen Kund:innen noch nicht – und genau deshalb stockt es.</strong> Denn es geht nie um Verkauf und nie um Follower. Es geht um echte Menschen, die anfangen zu vertrauen und den Weg gehen wollen.",
-    lever:"Dein Hebel ist die Sprache der Liebe zu deinen Kund:innen – das Herzstück der Fall-in-Love-Methode: <strong>echte Einblicke, eine Vision, Empathie, Klarheit und echte Einladungen.</strong> So trägt dein Gruppenprogramm, weil Menschen dir vertrauen, bevor sie kaufen. Genau das baust du in der Online Business Makery auf – ob du dein erstes Programm startest oder dein bestehendes endlich zum Tragen bringst.",
+    lever:"Dein Hebel ist die Sprache der Liebe zu deinen Kund:innen – das Herzstück der Fall-in-Love-Methode: <strong>echte Einblicke, eine Vision, Empathie, Klarheit und echte Einladungen.</strong> So trägt dein Gruppenprogramm, weil Menschen dir vertrauen, bevor sie kaufen.",
     circle:"Im Inner Circle bekommst du täglich Impulse, wie aus Followern echte Beziehungen werden."
   },
   F:{
@@ -581,7 +583,7 @@ const PROFILES = {
     sub:"Du tust viel Richtiges – nur fühlt es sich nie sicher an.",
     impTitle:"Was ich in deinen Antworten lese",
     read:"Du läufst der nächsten Taktik hinterher, dem nächsten Funnel, dem nächsten Trend. Jeden Morgen die Jagd. <strong>Dein Fundament trägt noch nicht – darum fühlt sich nichts wirklich sicher an.</strong> Das Problem ist nicht zu wenig Strategie. Es ist, dass dein Business auf Mechanik gebaut ist statt auf Beziehung. Und Mechanik lässt sich nie genug machen.",
-    lever:"Dein Hebel ist ein Gruppenprogramm, das auf Beziehung steht statt auf Mechanik – gebaut mit der Fall-in-Love-Methode: <strong>zu dir, zu deinem Angebot, zu deinen Kund:innen.</strong> Wenn das steht, hört die Jagd auf. Du weißt: es trägt. Und der Rest darf leicht sein. Genau dieses Fundament legst du in der Online Business Makery.",
+    lever:"Dein Hebel ist ein Gruppenprogramm, das auf Beziehung steht statt auf Mechanik – gebaut mit der Fall-in-Love-Methode: <strong>zu dir, zu deinem Angebot, zu deinen Kund:innen.</strong> Wenn das steht, hört die Jagd auf. Du weißt: es trägt. Und der Rest darf leicht sein.",
     circle:"Im Inner Circle bekommst du täglich Impulse für ein Business, das trägt statt dich zu treiben."
   }
 };
@@ -628,6 +630,7 @@ function renderQuestion(){
 }
 
 function choose(i){
+  if(document.activeElement && document.activeElement.blur) document.activeElement.blur();
   answers[current] = i;
   if(current < QUESTIONS.length-1){
     current++;
@@ -702,7 +705,7 @@ function renderResult(){
   document.getElementById('impTitle').textContent = p.impTitle;
   document.getElementById('impRead').innerHTML = p.read;
   document.getElementById('impLever').innerHTML = p.lever;
-  document.getElementById('circleHead').innerHTML = "Komm in den Inner Circle Carrie.";
+  document.getElementById('circleHead').innerHTML = "Komm in den Inner Circle von Carrie.";
   document.querySelector('.cta-circle p').textContent = p.circle + " Genau zu dem, was dein Business jetzt braucht.";
 
   // Scores rendern (sortiert: schwächste zuerst)
